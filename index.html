@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marines MC | BloodStripe Chapter,</title>
+<style>
+  :root {
+    --black: #0b0b0b;
+    --charcoal: #161616;
+    --gold: #f2c500;
+    --scarlet: #d7261e;
+    --text: #f5f5f5;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+    background: var(--black); color: var(--text); line-height: 1.6;
+  }
+  a, button, .card, .card img, .gallery-item { cursor: pointer; }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 40px; background: rgba(0,0,0,.85);
+    border-bottom: 3px solid var(--scarlet);
+  }
+  .brand { color: var(--gold); font-weight: 800; letter-spacing: 2px; }
+  .logo-nav { height: 50px; width: auto; }
+  .logo-nav img { height: 100%; width: auto; object-fit: contain; }
+  nav ul { list-style: none; display: flex; gap: 28px; }
+  nav a {
+    color: var(--text); text-decoration: none; text-transform: uppercase;
+    font-weight: 600; letter-spacing: 1px; font-size: .9em;
+    padding-bottom: 4px; border-bottom: 2px solid transparent;
+    transition: color .2s, border-color .2s;
+  }
+  nav a:hover { color: var(--gold); border-color: var(--gold); }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative; height: 100vh; overflow: hidden;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+  }
+  .hero video {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; /* Change this line */
+  z-index: 0;
+}
+  .hero::after {
+    content: ""; position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.8));
+  }
+  .hero-content { position: relative; z-index: 2; padding: 20px; max-width: 800px; }
+  .hero-content h1 {
+    font-size: clamp(2.2rem, 7vw, 4.2rem); color: var(--gold);
+    letter-spacing: 4px; text-transform: uppercase;
+  }
+  .hero-content h2 {
+    color: var(--scarlet); letter-spacing: 6px; text-transform: uppercase;
+    font-size: clamp(1.1rem, 3vw, 1.7rem); margin: 6px 0 14px;
+  }
+  .hero-content h3 {
+  color: var(--gold); letter-spacing: 3px; font-size: 1.1rem; margin-bottom: 20px;
+}
+  .hero-content p { font-style: italic; margin-bottom: 28px; }
+  .btn {
+    display: inline-block; margin: 6px; padding: 14px 32px;
+    background: var(--scarlet); color: var(--gold); border: 2px solid var(--gold);
+    font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
+    text-decoration: none; transition: all .25s;
+  }
+  .btn:hover { background: var(--gold); color: var(--black); }
+
+  /* ---------- CARD SECTIONS ---------- */
+  .card-section { padding: 90px 8%; text-align: center; }
+  .card-section.alt { background: var(--charcoal); }
+  .card-section > h2 {
+    color: var(--gold); text-transform: uppercase; letter-spacing: 3px;
+    font-size: 2.2rem;
+  }
+  .bar { width: 80px; height: 4px; background: var(--scarlet); margin: 10px auto 40px; }
+  .intro { max-width: 900px; margin: 0 auto 40px; font-size: 1.05rem; text-align: left; line-height: 1.8; }
+
+  .card-container {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 26px;
+  }
+  .card {
+    background: var(--black); border: 1px solid #2a2a2a;
+    border-top: 4px solid var(--scarlet); overflow: hidden; text-align: left;
+    opacity: 0; transform: translateY(40px);
+    transition: opacity .7s, transform .7s, border-color .25s, box-shadow .25s;
+  }
+  .card.show { opacity: 1; transform: translateY(0); }
+  .card:hover { border-top-color: var(--gold); box-shadow: 0 10px 25px rgba(242,197,0,.15); }
+  .card img { width: 100%; height: 220px; object-fit: cover; display: block; transition: transform .4s; }
+  .card:hover img { transform: scale(1.06); }
+  .card-content { padding: 22px; }
+  .card-content h3 { color: var(--gold); letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; }
+  .card-content p { font-size: .95rem; opacity: .9; }
+  .card.text-card { padding: 30px 22px; text-align: center; }
+  .card.text-card h3 { color: var(--gold); letter-spacing: 3px; margin-bottom: 8px; }
+
+  /* ---------- FORM ---------- */
+  form {
+    max-width: 600px; margin: 0 auto; text-align: left; background: var(--black);
+    border: 2px solid var(--scarlet); border-top: 6px solid var(--gold); padding: 32px;
+  }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  label {
+    display: block; margin: 14px 0 6px; color: var(--gold);
+    font-size: .85rem; text-transform: uppercase; letter-spacing: 1px;
+  }
+  input {
+    width: 100%; padding: 12px; background: var(--charcoal); color: var(--text);
+    border: 1px solid #444; font-size: 1rem; transition: border-color .2s;
+  }
+  input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 2px rgba(242,197,0,.25); }
+  form button {
+    margin-top: 26px; width: 100%; font-size: 1rem; padding: 14px;
+    background: var(--scarlet); color: var(--gold); border: 2px solid var(--gold);
+    font-weight: 700; text-transform: uppercase; letter-spacing: 2px; transition: all .25s;
+  }
+  form button:hover { background: var(--gold); color: var(--black); }
+
+  /* ---------- LIGHTBOX ---------- */
+.lightbox {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,.92);
+  align-items: center; justify-content: center;
+  cursor: pointer;
+}
+.lightbox.open { display: flex; }
+.lightbox img {
+  max-width: 92vw; max-height: 90vh; object-fit: contain;
+  border: 3px solid var(--gold);
+}
+.lightbox .close {
+  position: absolute; top: 20px; right: 30px;
+  color: var(--gold); font-size: 3rem; line-height: 1;
+}
+/* ---------- SOCIAL ---------- */
+  .social-section { padding: 60px 8%; text-align: center; background: var(--charcoal); }
+  .social-section h3 { color: var(--gold); font-size: 1.5rem; margin-bottom: 20px; letter-spacing: 2px; }
+  .social-links { display: flex; justify-content: center; gap: 30px; }
+  .social-links a {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 60px; height: 60px; background: var(--scarlet); color: var(--gold);
+    border: 2px solid var(--gold); border-radius: 50%; font-size: 1.8rem;
+    text-decoration: none; transition: all .25s;
+  }
+  .social-links a:hover { background: var(--gold); color: var(--black); transform: scale(1.1); }
+   /* ---------- EVENTS ---------- */
+  .events-list { max-width: 900px; margin: 0 auto; display: grid; gap: 20px; }
+  .event {
+    display: flex; align-items: stretch; text-align: left;
+    background: var(--black); border: 1px solid #2a2a2a;
+    border-left: 4px solid var(--scarlet);
+    transition: border-color .25s, box-shadow .25s;
+  }
+  .event:hover { border-left-color: var(--gold); box-shadow: 0 10px 25px rgba(242,197,0,.15); }
+  .event-date {
+    min-width: 100px; padding: 18px 10px; text-align: center;
+    background: var(--scarlet); color: var(--gold);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .event-date .month { font-size: .9rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .event-date .day { font-size: 2.2rem; font-weight: 800; line-height: 1; }
+  .event-info { padding: 18px 22px; }
+  .event-info h3 { color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .event-info .meta { font-size: .9rem; opacity: .8; margin-bottom: 6px; }
+  .event-info p { font-size: .95rem; opacity: .9; }
+  .no-events { text-align: center; opacity: .8; }
+
+  @media (max-width: 700px) {
+    .event { flex-direction: column; }
+    .event-date { flex-direction: row; gap: 10px; align-items: center; justify-content: center; padding: 12px; }
+  }
+
+  /* ---------- FOOTER ---------- */
+  .footer { background: #000; border-top: 3px solid var(--scarlet); padding: 28px 8%; }
+  .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; color: var(--gold); font-size: .9rem; }
+  .footer-links a { color: var(--text); text-decoration: none; margin-left: 18px; transition: color .2s; }
+  .footer-links a:hover { color: var(--gold); }
+
+  .disclaimer { font-size: .85rem; opacity: 0.8; margin-top: 20px; font-style: italic; }
+
+  @media (max-width: 700px) {
+    nav { padding: 12px 18px; }
+    nav ul { gap: 14px; }
+    .brand { display: none; }
+    .logo-nav { height: 40px; }
+    .row { grid-template-columns: 1fr; }
+    .footer-content { justify-content: center; text-align: center; }
+    .footer-links a { margin: 0 9px; }
+  }
+</style>
+</head>
+<body>
+<div class="lightbox" id="lightbox">
+  <span class="close">&times;</span>
+  <img src="" alt="Enlarged photo">
+</div>
+<nav>
+  <div class="brand">MARINES MC</div>
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About Us</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#events">Events</a></li>
+    <li><a href="#contact">Contact Us</a></li>
+  </ul>
+  <div class="logo-nav">
+    <img src="image/image.jpg" alt="Marines MC Logo">
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero" id="home">
+  <video autoplay muted loop playsinline>
+    <source src="video/Video 1.mp4" type="video/mp4">
+  </video>
+  <div class="hero-content">
+    <h1>Marines MC</h1>
+    <h2>BloodStripe Chapter</h2>
+    <h3>Colorado Springs</h3>
+    <p>Semper Fidelis. Brotherhood, service, and the open road.</p>
+    <a href="#about" class="btn">Learn More</a>
+    <a href="#contact" class="btn">Join the Brotherhood</a>
+  </div>
+</section>
+
+<!-- ABOUT SECTION -->
+<section id="about" class="card-section alt">
+  <h2>About Us</h2>
+  <div class="bar"></div>
+  <p class="intro">
+    Marines MC came into existence on November 10, 1994, in El Paso, Texas. Marines MC requested permission to use the Eagle, Globe, and Anchor on our colors on August 3, 1995, per MCO 5600.31. Authorization was granted by the Commandant of the Marine Corps on September 26, 1995, with the one stipulation that anything shown in public/advertising be accompanied by the following disclaimer: "Neither the United States Marine Corps nor any other component of the Department of Defense has approved, endorsed, or authorized this activity."
+    <br><br>
+    The first national run/meeting was at the Four Corners Rally in Ignacio, CO, in September of 1996, followed by one in Angel Fire, NM, in May 1999. Subsequent runs/meetings have convened at Cripple Creek, CO. A national run/meeting is now held every two years at a location designated by and agreed upon by the Membership.
+  </p>
+  <div class="card-container">
+    <div class="card text-card"><h3>HONOR</h3><p>Standing by the code we live by.</p></div>
+    <div class="card text-card"><h3>COURAGE</h3><p>Facing the road ahead together.</p></div>
+    <div class="card text-card"><h3>COMMITMENT</h3><p>Semper Fidelis. Always faithful.</p></div>
+  </div>
+  <p class="disclaimer">Neither the United States Marine Corps nor any other component of the Department of Defense has approved, endorsed, or authorized this activity.</p>
+</section>
+
+<!-- GALLERY SECTION -->
+<section id="gallery" class="card-section">
+  <h2>Gallery</h2>
+  <div class="bar"></div>
+  <div class="card-container">
+    <div class="card gallery-item">
+      <img src="image/LakeBackMMC.jpeg" alt="Chapter photo 1">
+      <div class="card-content"><h3>Chapter Ride</h3><p>Great ride through Blue Mesa Reservoir.</p></div>
+    </div>
+    <div class="card gallery-item">
+      <img src="image/Nationals_2026.jpeg" alt="Chapter photo 2">
+      <div class="card-content"><h3>Brotherhood</h3><p>MMC National Rally 2026.</p></div>
+    </div>
+    <div class="card gallery-item">
+      <img src="image/Firewatch.jpg" alt="Chapter photo 3">
+      <div class="card-content"><h3>Charity Event</h3><p>Firewatch for the Veterans Memorial wall.</p></div>
+    </div>
+    <div class="card gallery-item">
+      <img src="image/On_The_Road.jpg" alt="Chapter photo 4">
+      <div class="card-content"><h3>On the Road</h3><p>Pounding Pavement, and some scenic views along the way.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS SECTION -->
+<section id="events" class="card-section">
+  <h2>Upcoming Events</h2>
+  <div class="bar"></div>
+  <div class="events-list">
+
+    <!-- EVENT (copy this whole block for each new event) -->
+    <div class="event">
+      <div class="event-date">
+        <span class="month">Nov</span>
+        <span class="day">10</span>
+      </div>
+      <div class="event-info">
+        <h3>Marine Corps Birthday Celebration</h3>
+        <div class="meta">📍 TAVA House, Woodland Park, CO &nbsp;|&nbsp; 🕐 TBD</div>
+        <p>Join us in celebrating the birthday of the United States Marine Corps with fellow members and friends.</p>
+      </div>
+    </div>
+    <!-- END EVENT -->
+
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section id="contact" class="card-section alt">
+  <h2>Contact Us</h2>
+  <div class="bar"></div>
+  <form action="https://formsubmit.co/YOUR_PRIMARY_EMAIL@example.com" method="POST">
+    <input type="hidden" name="_cc" value="f16docaceres@gmail.com,jrram13@gmail.com,MBeaudin14@gmail.com">
+    <input type="hidden" name="_subject" value="New BloodStripe Intake Form">
+    <input type="hidden" name="_autoresponse" value="Thanks for your interest in Marines MC BloodStripe Chapter! One of our members will get back to you soon. Semper Fidelis.">
+    <input type="hidden" name="_captcha" value="true">
+    <input type="text" name="_honey" style="display:none">
+
+    <div class="row">
+      <div>
+        <label for="first">First Name</label>
+        <input type="text" id="first" name="First Name" required>
+      </div>
+      <div>
+        <label for="last">Last Name</label>
+        <input type="text" id="last" name="Last Name" required>
+      </div>
+    </div>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="Email" required>
+
+    <label for="phone">Phone Number</label>
+    <input type="tel" id="phone" name="Phone" required>
+
+    <label for="city">City</label>
+    <input type="text" id="city" name="City" required>
+
+    <button type="submit">Submit</button>
+  </form>
+</section>
+<!-- SOCIAL SECTION -->
+<section class="social-section">
+  <h3>Follow Us</h3>
+  <div class="social-links">
+    <a href="https://www.facebook.com/https://www.facebook.com/COSpringsMarinesMC?mibextid=wwXIfr&mibextid=wwXIfr" target="_blank" title="Facebook">f</a>
+    <a href="https://www.instagram.com/https://www.instagram.com/marinesmc_coloradosprings?mdxt=bG04dWlhZzU5YWRh&utm_source=qr" target="_blank" title="Instagram">📷</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-content">
+    <p>&copy; <span id="year"></span> Marines MC BloodStripe Chapter. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#about">About</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // 1 Smooth scrolling for internal links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener("click", function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute("href"));
+      if (target) target.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+
+  // 2 Card scroll animation
+  const cards = document.querySelectorAll(".card");
+  const revealCards = () => {
+    const triggerBottom = window.innerHeight * 0.88;
+    cards.forEach(card => {
+      if (card.getBoundingClientRect().top < triggerBottom) card.classList.add("show");
+    });
+  };
+  window.addEventListener("scroll", revealCards);
+  revealCards();
+
+  // 3 Dynamic year in footer
+  document.getElementById("year").textContent = new Date().getFullYear();
+ // 4 Gallery lightbox
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = lightbox.querySelector("img");
+
+document.querySelectorAll(".gallery-item img").forEach(img => {
+  img.addEventListener("click", () => {
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt;
+    lightbox.classList.add("open");
+  });
+});
+
+lightbox.addEventListener("click", () => lightbox.classList.remove("open"));
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") lightbox.classList.remove("open");
+}); 
+</script>
+</body>
+</html>
