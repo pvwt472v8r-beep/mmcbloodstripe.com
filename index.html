@@ -97,6 +97,48 @@
   height: auto;
   margin-top: 1rem;
 }
+
+  .flyer-trigger {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.flyer-dialog {
+  max-width: 96vw;
+  max-height: 100vh;
+  padding: 2.5rem 1rem 1rem;
+  border: 0;
+  background: transparent;
+  overflow: visible;
+}
+
+.flyer-dialog::backdrop {
+  background: rgb(0 0 0 / 80%);
+}
+
+.flyer-enlarged {
+  display: block;
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  box-shadow: 0 4px 24px rgb(0 0 0 / 40%);
+}
+
+.flyer-dialog form {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.flyer-close {
+  padding: 0.25rem 0.6rem;
+  border: 0;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
   .card {
     background: var(--black); border: 1px solid #2a2a2a;
     border-top: 4px solid var(--scarlet); overflow: hidden; text-align: left;
@@ -302,11 +344,20 @@ form { padding: 20px; }
     <h3>Bloodstripe Chapter Marine Corps Birthday Celebration</h3>
     <div class="meta">📍 Pool Hall (Jess's Place), Woodland Park, CO &nbsp;|&nbsp; 🕐 6:00 PM</div>
     <p>Join us to celebrate 251 Years of Marine Corps Legacy</p>
-    <img
-  class="event-flyer"
-  src="image/bloodstripe-birthday-flyer.jpg"
-  alt="Flyer for the Bloodstripe Chapter Marine Corps birthday celebration on November 7th"
-/>
+    <button class="flyer-trigger" type="button" aria-label="View flyer enlarged">
+  <img class="event-flyer" src="November Flyer.png" alt="">
+</button>
+
+<dialog class="flyer-dialog" aria-label="Enlarged event flyer">
+  <form method="dialog">
+    <button class="flyer-close" aria-label="Close enlarged flyer">×</button>
+  </form>
+  <img
+    class="flyer-enlarged"
+    src="images/bloodstripe-birthday-flyer.jpg"
+    alt="Flyer for the Bloodstripe Chapter Marine Corps birthday celebration"
+  >
+</dialog>
   </div>
 </div>
 
@@ -438,6 +489,7 @@ const lightbox = document.getElementById("lightbox");
 const lightboxImg = lightbox.querySelector("img");
 
 document.querySelectorAll(".gallery-item img").forEach(img => {
+  document.querySelectorAll(".gallery-item img, .event-flyer").forEach(img => {
   img.addEventListener("click", () => {
     lightboxImg.src = img.src;
     lightboxImg.alt = img.alt;
